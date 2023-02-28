@@ -5,10 +5,9 @@ import 'package:onlymessage/app/core/rest_client/interceptors/auth_interceptor.d
 class CustomDio extends DioForNative {
   late final AuthInterceptor _authInterceptor;
 
-  //! Adicionar o url
   CustomDio()
       : super(BaseOptions(
-          baseUrl: '',
+          baseUrl: 'http://10.0.2.2:3001',
           connectTimeout: 5000,
           receiveTimeout: 60000,
         )) {
