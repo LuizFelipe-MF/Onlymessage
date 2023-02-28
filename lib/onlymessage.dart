@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:onlymessage/app/core/provider/aplication_binding.dart';
 import 'package:onlymessage/app/core/ui/theme/theme_config.dart';
-import 'package:onlymessage/app/pages/splash/splash_page.dart';
+import 'package:onlymessage/app/pages/auth/login/login_router.dart';
+import 'package:onlymessage/app/pages/auth/register/register_router.dart';
+import 'package:onlymessage/app/pages/home/home_page.dart';
+import 'package:onlymessage/app/pages/splash/splash_router.dart';
 
 class Onlymessage extends StatelessWidget {
   const Onlymessage({super.key});
@@ -14,7 +17,10 @@ class Onlymessage extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Onlymessage',
         routes: {
-          '/': (context) => const SplashPage(),
+          '/': (context) => SplashRouter.page,
+          '/home': (context) => const HomePage(),
+          '/auth/login': (context) => LoginRouter.page,
+          '/auth/register': (context) => RegisterRouter.page,
         },
       ),
     );
