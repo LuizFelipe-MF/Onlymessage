@@ -29,14 +29,17 @@ class ThemeConfig {
       secondary: ColorsApp.i.secondary,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: AppStyles.i.primaryButton, 
+      style: AppStyles.i.primaryButton,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      isDense: true,
-      contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-      border: _defaultInputBorder,
-      enabledBorder: _defaultInputBorder,
-      focusedBorder: _defaultInputBorder,
-    ),
+        isDense: true,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+        border: _defaultInputBorder,
+        enabledBorder: _defaultInputBorder,
+        focusedBorder: _defaultInputBorder,
+        labelStyle: const TextStyle(
+          color: Color(0XFF5F5E6D),
+        )),
   );
 }
