@@ -10,7 +10,7 @@ mixin Loader<T extends StatefulWidget> on State<T> {
       showDialog(
           context: context,
           builder: (context) {
-            return LoadingAnimationWidget.horizontalRotatingDots(
+            return LoadingAnimationWidget.dotsTriangle(
               color: const Color(0XFF2F2E3D),
               size: 60,
             );
