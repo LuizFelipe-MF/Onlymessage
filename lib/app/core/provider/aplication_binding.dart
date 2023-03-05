@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onlymessage/app/core/rest_client/custom_dio.dart';
 import 'package:onlymessage/app/repositories/auth/auth_repository.dart';
 import 'package:onlymessage/app/repositories/auth/auth_repository_impl.dart';
+import 'package:onlymessage/app/repositories/perfil_edit/perfil_edit_repository.dart';
+import 'package:onlymessage/app/repositories/perfil_edit/perfil_edit_repository_impl.dart';
 import 'package:provider/provider.dart';
 
 class AplicationBinding extends StatelessWidget {
@@ -21,6 +23,11 @@ class AplicationBinding extends StatelessWidget {
         ),
         Provider<AuthRepository>(
           create: (context) => AuthRepositoryImpl(
+            dio: context.read(),
+          ),
+        ),
+        Provider<PerfilEditRepository>(
+          create: (context) => PerfilEditRepositoryImpl(
             dio: context.read(),
           ),
         ),
