@@ -3,7 +3,8 @@ import 'package:onlymessage/app/core/provider/aplication_binding.dart';
 import 'package:onlymessage/app/core/ui/theme/theme_config.dart';
 import 'package:onlymessage/app/pages/auth/login/login_router.dart';
 import 'package:onlymessage/app/pages/auth/register/register_router.dart';
-import 'package:onlymessage/app/pages/home/home_page.dart';
+import 'package:onlymessage/app/pages/home/home_router.dart';
+import 'package:onlymessage/app/pages/perfil_edit/perfil_edit_router.dart';
 import 'package:onlymessage/app/pages/splash/splash_router.dart';
 
 class Onlymessage extends StatelessWidget {
@@ -18,9 +19,10 @@ class Onlymessage extends StatelessWidget {
         title: 'Onlymessage',
         routes: {
           '/': (context) => SplashRouter.page,
-          '/home': (context) => const HomePage(),
+          '/home': (context) => HomeRouter.page,
           '/auth/login': (context) => LoginRouter.page,
           '/auth/register': (context) => RegisterRouter.page,
+          '/perfilEdit': (context) => PerfilEditRouter.page,
         },
       ),
     );
