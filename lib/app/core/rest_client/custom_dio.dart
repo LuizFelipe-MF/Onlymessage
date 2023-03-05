@@ -8,15 +8,16 @@ class CustomDio extends DioForNative {
   CustomDio()
       : super(BaseOptions(
           baseUrl: 'http://10.0.2.2:3001',
-          connectTimeout: 5000,
+          connectTimeout: 10000,
           receiveTimeout: 60000,
         )) {
     interceptors.add(LogInterceptor(
       requestBody: true,
       responseBody: true,
       requestHeader: true,
+      
     ));
-    _authInterceptor = AuthInterceptor();
+    _authInterceptor = AuthInterceptor(dio: this);
   }
 
   CustomDio auth() {
