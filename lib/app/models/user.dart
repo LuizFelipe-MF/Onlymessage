@@ -27,4 +27,14 @@ class UserAuth {
 
   factory UserAuth.fromJson(String source) =>
       UserAuth.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  UserAuth copyWith({
+    String? username,
+    String? imageUrl,
+  }) {
+    return UserAuth(
+      username: username ?? this.username,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }
