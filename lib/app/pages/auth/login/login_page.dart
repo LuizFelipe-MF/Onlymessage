@@ -42,97 +42,95 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
         );
       },
       child: Scaffold(
-        body: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Login',
-                style: context.textStyle.textTitle,
-              ),
-              const SizedBox(
-                height: 22,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
-                  controller: _userNameEC,
-                  validator: Validatorless.multiple([
-                    Validatorless.required('Nome de usuário obrigatório.'),
-                    Validatorless.min(
-                        3, 'Nome precisa ser maior que 3 caracteres.'),
-                    Validatorless.max(
-                        50, 'Nome precisa ser menor que 50 caracteres.')
-                  ]),
-                  style: context.textStyle.textRegular.copyWith(fontSize: 16),
-                  decoration:
-                      const InputDecoration(labelText: 'Nome de Usuário'),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
-                  controller: _passwordEC,
-                  validator: Validatorless.multiple([
-                    Validatorless.required('Senha obrigatória.'),
-                    Validatorless.min(
-                        8, 'Senha precisa ser maior que 8 caracteres.'),
-                    Validatorless.max(
-                        32, 'Senha precisa ser menor que 32 caracteres.')
-                  ]),
-                  style: context.textStyle.textRegular.copyWith(fontSize: 16),
-                  decoration: const InputDecoration(labelText: 'Senha'),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: CustomButton(
-                  width: double.infinity,
-                  label: 'ENTRAR',
-                  onPressed: () {
-                    final valid = _formKey.currentState?.validate() ?? false;
-
-                    if (valid) {
-                      controller.login(_userNameEC.text, _passwordEC.text);
-                    }
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Não possui conta?',
-                      style: context.textStyle.textRegular,
+                      'Login',
+                      style: context.textStyle.textTitle,
                     ),
-                    TextButton(
+                    const SizedBox(
+                      height: 22,
+                    ),
+                    TextFormField(
+                      controller: _userNameEC,
+                      validator: Validatorless.multiple([
+                        Validatorless.required('Nome de usuário obrigatório.'),
+                        Validatorless.min(
+                            3, 'Nome precisa ser maior que 3 caracteres.'),
+                        Validatorless.max(
+                            50, 'Nome precisa ser menor que 50 caracteres.')
+                      ]),
+                      style:
+                          context.textStyle.textRegular.copyWith(fontSize: 16),
+                      decoration:
+                          const InputDecoration(labelText: 'Nome de Usuário'),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _passwordEC,
+                      validator: Validatorless.multiple([
+                        Validatorless.required('Senha obrigatória.'),
+                        Validatorless.min(
+                            8, 'Senha precisa ser maior que 8 caracteres.'),
+                        Validatorless.max(
+                            32, 'Senha precisa ser menor que 32 caracteres.')
+                      ]),
+                      style:
+                          context.textStyle.textRegular.copyWith(fontSize: 16),
+                      decoration: const InputDecoration(labelText: 'Senha'),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomButton(
+                      width: double.infinity,
+                      label: 'ENTRAR',
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/auth/register');
+                        final valid =
+                            _formKey.currentState?.validate() ?? false;
+
+                        if (valid) {
+                          controller.login(_userNameEC.text, _passwordEC.text);
+                        }
                       },
-                      child: Text(
-                        'Clique aqui',
-                        style: context.textStyle.textRegular.copyWith(
-                          color: const Color(0XFF491E82),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Não possui conta?',
+                          style: context.textStyle.textRegular,
                         ),
-                      ),
-                    ),
-                    Text(
-                      'e crie uma.',
-                      style: context.textStyle.textRegular,
-                    ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/auth/register');
+                          },
+                          child: Text(
+                            'Clique aqui',
+                            style: context.textStyle.textRegular.copyWith(
+                              color: const Color(0XFF491E82),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'e crie uma.',
+                          style: context.textStyle.textRegular,
+                        ),
+                      ],
+                    )
                   ],
                 ),
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ),

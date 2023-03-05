@@ -46,114 +46,112 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
         );
       },
       child: Scaffold(
-        body: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Registro',
-                style: context.textStyle.textTitle,
-              ),
-              const SizedBox(
-                height: 22,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
-                  controller: _userNameEC,
-                  validator: Validatorless.multiple([
-                    Validatorless.required('Nome de usuário obrigatório.'),
-                    Validatorless.min(
-                        3, 'Nome precisa ser maior que 3 caracteres.'),
-                    Validatorless.max(
-                        50, 'Nome precisa ser menor que 50 caracteres.')
-                  ]),
-                  style: context.textStyle.textRegular.copyWith(fontSize: 16),
-                  decoration:
-                      const InputDecoration(labelText: 'Nome de Usuário'),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
-                  controller: _passwordEC,
-                  validator: Validatorless.multiple([
-                    Validatorless.required('Senha obrigatória.'),
-                    Validatorless.min(
-                        8, 'Senha precisa ser maior que 8 caracteres.'),
-                    Validatorless.max(
-                        32, 'Senha precisa ser menor que 32 caracteres.')
-                  ]),
-                  style: context.textStyle.textRegular.copyWith(fontSize: 16),
-                  decoration: const InputDecoration(labelText: 'Senha'),
-                  obscureText: true,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextFormField(
-                  validator: Validatorless.multiple([
-                    Validatorless.required('Confirmar Senha obrigatória.'),
-                    Validatorless.compare(
-                        _passwordEC, 'Senha diferente de Confirma Senha.')
-                  ]),
-                  style: context.textStyle.textRegular.copyWith(fontSize: 16),
-                  decoration:
-                      const InputDecoration(labelText: 'Confirmar Senha'),
-                  obscureText: true,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: CustomButton(
-                  width: double.infinity,
-                  label: 'REGISTRAR',
-                  onPressed: () {
-                    final valid = _formKey.currentState?.validate() ?? false;
-                    if (valid) {
-                      controller.register(_userNameEC.text, _passwordEC.text);
-                    }
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Já tem uma conta?',
-                      style: context.textStyle.textRegular,
+                      'Registro',
+                      style: context.textStyle.textTitle,
                     ),
-                    TextButton(
+                    const SizedBox(
+                      height: 22,
+                    ),
+                    TextFormField(
+                      controller: _userNameEC,
+                      validator: Validatorless.multiple([
+                        Validatorless.required('Nome de usuário obrigatório.'),
+                        Validatorless.min(
+                            3, 'Nome precisa ser maior que 3 caracteres.'),
+                        Validatorless.max(
+                            50, 'Nome precisa ser menor que 50 caracteres.')
+                      ]),
+                      style:
+                          context.textStyle.textRegular.copyWith(fontSize: 16),
+                      decoration:
+                          const InputDecoration(labelText: 'Nome de Usuário'),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _passwordEC,
+                      validator: Validatorless.multiple([
+                        Validatorless.required('Senha obrigatória.'),
+                        Validatorless.min(
+                            8, 'Senha precisa ser maior que 8 caracteres.'),
+                        Validatorless.max(
+                            32, 'Senha precisa ser menor que 32 caracteres.')
+                      ]),
+                      style:
+                          context.textStyle.textRegular.copyWith(fontSize: 16),
+                      decoration: const InputDecoration(labelText: 'Senha'),
+                      obscureText: true,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      validator: Validatorless.multiple([
+                        Validatorless.required('Confirmar Senha obrigatória.'),
+                        Validatorless.compare(
+                            _passwordEC, 'Senha diferente de Confirma Senha.')
+                      ]),
+                      style:
+                          context.textStyle.textRegular.copyWith(fontSize: 16),
+                      decoration:
+                          const InputDecoration(labelText: 'Confirmar Senha'),
+                      obscureText: true,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomButton(
+                      width: double.infinity,
+                      label: 'REGISTRAR',
                       onPressed: () {
-                        Navigator.pop(context);
+                        final valid =
+                            _formKey.currentState?.validate() ?? false;
+                        if (valid) {
+                          controller.register(
+                              _userNameEC.text, _passwordEC.text);
+                        }
                       },
-                      child: Text(
-                        'Clique aqui',
-                        style: context.textStyle.textRegular.copyWith(
-                          color: const Color(0XFF491E82),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Já tem uma conta?',
+                          style: context.textStyle.textRegular,
                         ),
-                      ),
-                    ),
-                    Text(
-                      'para entrar.',
-                      style: context.textStyle.textRegular,
-                    ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Clique aqui',
+                            style: context.textStyle.textRegular.copyWith(
+                              color: const Color(0XFF491E82),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'para entrar.',
+                          style: context.textStyle.textRegular,
+                        ),
+                      ],
+                    )
                   ],
                 ),
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ),
