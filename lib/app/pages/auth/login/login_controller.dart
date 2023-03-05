@@ -21,7 +21,7 @@ class LoginController extends Cubit<LoginState> {
 
       sp.setString('token', authModel.token);
       sp.setString('refreshToken', authModel.refreshToken);
-      sp.setString('username', authModel.user.imageUrl);
+      sp.setString('username', authModel.user.username);
       sp.setString('imageUrl', authModel.user.imageUrl);
 
       emit(state.copyWith(status: LoginStatus.success));
