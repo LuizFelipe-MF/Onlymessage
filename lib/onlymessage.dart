@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlymessage/app/core/provider/aplication_binding.dart';
 import 'package:onlymessage/app/core/ui/theme/theme_config.dart';
+import 'package:onlymessage/app/pages/add_friends/add_friends_router.dart';
 import 'package:onlymessage/app/pages/auth/login/login_router.dart';
 import 'package:onlymessage/app/pages/auth/register/register_router.dart';
 import 'package:onlymessage/app/pages/home/home_router.dart';
@@ -23,6 +24,7 @@ class Onlymessage extends StatelessWidget {
           '/auth/login': (context) => LoginRouter.page,
           '/auth/register': (context) => RegisterRouter.page,
           '/perfilEdit': (context) => PerfilEditRouter.page,
+          '/addUsers': (context) => AddFriendsRouter.page,
         },
       ),
     );
