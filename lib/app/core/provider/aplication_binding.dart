@@ -4,6 +4,8 @@ import 'package:onlymessage/app/repositories/auth/auth_repository.dart';
 import 'package:onlymessage/app/repositories/auth/auth_repository_impl.dart';
 import 'package:onlymessage/app/repositories/perfil_edit/perfil_edit_repository.dart';
 import 'package:onlymessage/app/repositories/perfil_edit/perfil_edit_repository_impl.dart';
+import 'package:onlymessage/app/repositories/user_to_add/user_to_add_repository.dart';
+import 'package:onlymessage/app/repositories/user_to_add/user_to_add_repository_impl.dart';
 import 'package:provider/provider.dart';
 
 class AplicationBinding extends StatelessWidget {
@@ -28,6 +30,11 @@ class AplicationBinding extends StatelessWidget {
         ),
         Provider<PerfilEditRepository>(
           create: (context) => PerfilEditRepositoryImpl(
+            dio: context.read(),
+          ),
+        ),
+        Provider<UserToAddRepository>(
+          create: (context) => UserToAddRepositoryImpl(
             dio: context.read(),
           ),
         ),
