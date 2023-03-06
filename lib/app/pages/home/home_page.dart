@@ -84,6 +84,7 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                                   }
                                   break;
                                 case 2:
+                                  Navigator.of(context).pushNamed('/addUsers');
                                   break;
                                 case 3:
                                   final navigator = Navigator.of(context);
