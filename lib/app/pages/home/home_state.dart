@@ -2,6 +2,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:match/match.dart';
 
+import 'package:onlymessage/app/models/friend.dart';
 import 'package:onlymessage/app/models/user.dart';
 
 part 'home_state.g.dart';
@@ -17,26 +18,31 @@ enum HomeStatus {
 class HomeState extends Equatable {
   final HomeStatus status;
   final UserAuth user;
+  final List<Friend> friends;
 
   const HomeState({
     required this.status,
     required this.user,
+    required this.friends,
   });
 
   HomeState.initial()
       : status = HomeStatus.initial,
-        user = UserAuth(username: '', imageUrl: '');
+        user = UserAuth(username: '', imageUrl: ''),
+        friends = [];
 
   @override
-  List<Object?> get props => [status, user];
+  List<Object?> get props => [status, user, friends];
 
   HomeState copyWith({
     HomeStatus? status,
     UserAuth? user,
+    List<Friend>? friends,
   }) {
     return HomeState(
       status: status ?? this.status,
       user: user ?? this.user,
+      friends: friends ?? this.friends,
     );
   }
 }

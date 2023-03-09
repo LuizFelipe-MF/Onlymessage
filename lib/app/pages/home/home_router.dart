@@ -9,7 +9,9 @@ class HomeRouter {
   static Widget get page => MultiProvider(
         providers: [
           Provider(
-            create: (context) => HomeController(),
+            create: (context) => HomeController(
+              context.read(),
+            ),
           )
         ],
         child: const HomePage(),
