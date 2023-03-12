@@ -1,11 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:onlymessage/app/models/last_message.dart';
+import 'package:onlymessage/app/models/message.dart';
 import 'package:onlymessage/app/models/user.dart';
 
 class Friend extends UserAuth {
   final String id;
   final String friendId;
-  final String? lastMessage;
+  final LastMessage? lastMessage;
 
   Friend({
     required this.id,
@@ -20,9 +23,7 @@ class Friend extends UserAuth {
     return <String, dynamic>{
       'id': id,
       'friendId': friendId,
-      'lastMessage': lastMessage,
-      'userName': username,
-      'imageUrl': imageUrl,
+      'lastMessage': lastMessage?.toMap(),
     };
   }
 
@@ -32,7 +33,9 @@ class Friend extends UserAuth {
       friendId: map['friendId'] as String,
       username: map['userName'] as String,
       imageUrl: map['imageUrl'] as String,
-      lastMessage: map['lastMessage']['textMessage'] as String?,
+      lastMessage: map['lastMessage'] != null
+          ? LastMessage.fromMap(map['lastMessage'] as Map<String, dynamic>)
+          : null,
     );
   }
 
