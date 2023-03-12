@@ -4,6 +4,7 @@ import 'package:onlymessage/app/core/ui/base_state/base_state.dart';
 import 'package:onlymessage/app/core/ui/helpers/size_extensions.dart';
 import 'package:onlymessage/app/core/ui/styles/text_styles.dart';
 import 'package:onlymessage/app/models/friend.dart';
+import 'package:onlymessage/app/models/friend_request.dart';
 import 'package:onlymessage/app/models/user.dart';
 import 'package:onlymessage/app/pages/home/home_controller.dart';
 import 'package:onlymessage/app/pages/home/home_state.dart';
@@ -19,7 +20,10 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
   @override
   void onReady() async {
     await controller.load();
-    controller.getFriends();
+    await controller.getFriendRequests();
+    await controller.getFriends();
+    await controller.hubConnection();
+    await controller.friendRequestHubConnection();
   }
 
   @override
@@ -120,7 +124,50 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                                 ),
                               )
                             ],
-                          )
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Stack(children: [
+                            IconButton(
+                              onPressed: () async {
+                                final result = await Navigator.of(context)
+                                    .pushNamed('/friendsRequest', arguments: {
+                                  'friendRequestList':
+                                      controller.state.friendsRequestList,
+                                });
+
+                                if (result != null) {
+                                  controller.updateFriendsRequestList(
+                                      result as List<FriendRequest>);
+                                }
+                              },
+                              icon: const Icon(
+                                Icons.notifications,
+                                color: Color(0XFF2F2E3D),
+                                size: 32,
+                              ),
+                            ),
+                            BlocSelector<HomeController, HomeState,
+                                    List<FriendRequest>>(
+                                selector: (state) => state.friendsRequestList,
+                                builder: (context, state) {
+                                  return Positioned(
+                                    right: 10,
+                                    top: 10,
+                                    child: Visibility(
+                                        visible: state.isNotEmpty,
+                                        child: Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFF491E82),
+                                          ),
+                                        )),
+                                  );
+                                })
+                          ])
                         ],
                       )
                     ],
@@ -137,8 +184,8 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                 childCount: friends.length,
                 (context, index) {
                   final friend = friends[index];
-                  
-                  return friendCard(friend);
+
+                  return friendCard(friend, index);
                 },
               ));
             },
@@ -148,12 +195,13 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
     );
   }
 
-  friendCard(Friend friend) => InkWell(
+  friendCard(Friend friend, int index) => InkWell(
         onTap: () async {
-          final perfilEditResult =
+          final result =
               await Navigator.of(context).pushNamed('/chat', arguments: {
             'friendInformations': friend,
           });
+          await controller.getFriends();
         },
         child: Container(
           decoration: const BoxDecoration(
@@ -191,11 +239,31 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              friend.username,
-                              style: context.textStyle.textMedium
-                                  .copyWith(fontSize: 16),
-                              overflow: TextOverflow.ellipsis,
+                            Row(
+                              children: [
+                                Text(
+                                  friend.username,
+                                  style: context.textStyle.textMedium
+                                      .copyWith(fontSize: 16),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Visibility(
+                                    visible: friend.lastMessage != null
+                                        ? friend.lastMessage?.whoSend !=
+                                            controller.state.localUserId
+                                        : false,
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFF491E82),
+                                      ),
+                                    ))
+                              ],
                             ),
                             const SizedBox(
                               height: 14,
@@ -203,9 +271,12 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                             Visibility(
                               visible: friend.lastMessage != null,
                               child: Text(
-                                friend.lastMessage ?? '',
-                                style: context.textStyle.textRegular
-                                    .copyWith(color: const Color(0XFF5F5E6D)),
+                                friend.lastMessage?.textMessage ?? '',
+                                style: context.textStyle.textRegular.copyWith(
+                                    color: friend.lastMessage?.whoSend !=
+                                            controller.state.localUserId
+                                        ? Colors.white
+                                        : const Color(0XFF5F5E6D)),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -215,14 +286,14 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                     ),
                   ],
                 ),
-                friendPopupMenu(),
+                friendPopupMenu(friend.id, index),
               ],
             ),
           ),
         ),
       );
 
-  friendPopupMenu() => PopupMenuButton(
+  friendPopupMenu(String friendId, int index) => PopupMenuButton(
         color: const Color(0XFF1C1C24),
         icon: const Icon(
           Icons.more_vert_rounded,
@@ -232,6 +303,7 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
         onSelected: (value) async {
           switch (value) {
             case 1:
+              await controller.removeFriend(friendId, index);
               break;
           }
         },
