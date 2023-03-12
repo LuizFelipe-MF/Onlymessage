@@ -25,6 +25,7 @@ class _ChatPageState extends BaseState<ChatPage, ChatController> {
 
   @override
   void onReady() async {
+    await controller.hubConnection();
     await controller.getLocalUserId();
     await controller.getMessages(widget.friendInformations.friendId);
   }
@@ -125,7 +126,14 @@ class _ChatPageState extends BaseState<ChatPage, ChatController> {
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         color: Color(0XFF2F2E3D)),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_sendMessageEC.text.isNotEmpty) {
+                          controller.sendMessage(
+                              widget.friendInformations.friendId,
+                              _sendMessageEC.text);
+                          _sendMessageEC.clear();
+                        }
+                      },
                       icon: const Icon(Icons.send_rounded),
                       color: const Color(0XFF5F5E6D),
                       iconSize: 32,
