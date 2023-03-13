@@ -25,7 +25,7 @@ https://user-images.githubusercontent.com/86088155/224589892-7df52b3d-dcb5-4202-
 
 1. Você precisara ter um emulador, ou usar o próprio dispositivo como emulador.
 2. Rode a aplicação Flutter.
-3. Baixe e rode a <a href="https://github.com/Adeilton-Ro/OnlyMessage" target="_blank">API</a> 
+3. Baixe e rode a <a href="https://github.com/Adeilton-Ro/OnlyMessage" target="blank">API</a> 
 4. Com a API rodando, começe a testar a aplicação.
 
 ## Versão do projeto
