@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:onlymessage/app/core/exeptions/repository_exeption.dart';
 import 'package:onlymessage/app/core/rest_client/custom_dio.dart';
 import 'package:onlymessage/app/models/friend.dart';
 import 'package:onlymessage/app/models/friend_request.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import './friends_repository.dart';
 
 class FriendsRepositoryImpl implements FriendsRepository {
@@ -80,6 +83,10 @@ class FriendsRepositoryImpl implements FriendsRepository {
 
   @override
   Future<void> removeFriend(String id) async {
-    await dio.auth().put('/friends/removefriendship/$id');
+    try {
+      await dio.auth().delete('/friends/removefriendship/$id', data: {});
+    } on DioError catch (e) {
+      throw RepositoryExeption(message: 'Erro ao tentar remover amigo.');
+    }
   }
 }

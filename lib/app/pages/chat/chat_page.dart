@@ -32,118 +32,129 @@ class _ChatPageState extends BaseState<ChatPage, ChatController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        elevation: 2,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/loading.gif',
-                image:
-                    'http://10.0.2.2:3001${widget.friendInformations.imageUrl}',
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(
-              width: 14,
-            ),
-            SizedBox(
-              width: context.percentWidth(0.5),
-              child: Text(
-                widget.friendInformations.username,
-                style: context.textStyle.textRegular.copyWith(fontSize: 18),
-                overflow: TextOverflow.ellipsis,
-              ),
-            )
-          ],
-        ),
-      ),
-      body: Stack(
-        children: [
-          CustomScrollView(
-            reverse: true,
-            slivers: [
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 100,
+    return BlocListener<ChatController, ChatState>(
+      listener: (context, state) {
+        state.status.matchAny(
+          any: () => hideLoader(),
+          error: () {
+            hideLoader();
+            showError(state.errorMessage ?? 'Erro desconhecido');
+          },
+        );
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 70,
+          elevation: 2,
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/loading.gif',
+                  image:
+                      'http://10.0.2.2:3001${widget.friendInformations.imageUrl}',
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
                 ),
               ),
-              BlocSelector<ChatController, ChatState, List<Message>>(
-                selector: (state) => state.messages,
-                builder: (context, messages) {
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: messages.length,
-                      (context, index) {
-                        final message = messages[index];
-                        final localId = controller.state.localUserId;
-
-                        return _messages(message, localId);
-                      },
-                    ),
-                  );
-                },
+              const SizedBox(
+                width: 14,
               ),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 32,
+              SizedBox(
+                width: context.percentWidth(0.5),
+                child: Text(
+                  widget.friendInformations.username,
+                  style: context.textStyle.textRegular.copyWith(fontSize: 18),
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
+              )
             ],
           ),
-          Positioned(
-              child: Container(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _sendMessageEC,
-                      style:
-                          context.textStyle.textRegular.copyWith(fontSize: 16),
-                      decoration: InputDecoration(
-                          hintText: 'Digite algo...',
-                          hintStyle: context.textStyle.textRegular
-                              .copyWith(color: const Color(0XFF5F5E6D)),
-                          filled: true,
-                          fillColor: const Color(0XFF1C1C24)),
-                    ),
+        ),
+        body: Stack(
+          children: [
+            CustomScrollView(
+              reverse: true,
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 100,
                   ),
-                  const SizedBox(
-                    width: 20,
+                ),
+                BlocSelector<ChatController, ChatState, List<Message>>(
+                  selector: (state) => state.messages,
+                  builder: (context, messages) {
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: messages.length,
+                        (context, index) {
+                          final message = messages[index];
+                          final localId = controller.state.localUserId;
+
+                          return _messages(message, localId);
+                        },
+                      ),
+                    );
+                  },
+                ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 32,
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: Color(0XFF2F2E3D)),
-                    child: IconButton(
-                      onPressed: () {
-                        if (_sendMessageEC.text.isNotEmpty) {
-                          controller.sendMessage(
-                              widget.friendInformations.friendId,
-                              _sendMessageEC.text);
-                          _sendMessageEC.clear();
-                        }
-                      },
-                      icon: const Icon(Icons.send_rounded),
-                      color: const Color(0XFF5F5E6D),
-                      iconSize: 32,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          )),
-        ],
+            Positioned(
+                child: Container(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20.0, bottom: 20.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _sendMessageEC,
+                        style: context.textStyle.textRegular
+                            .copyWith(fontSize: 16),
+                        decoration: InputDecoration(
+                            hintText: 'Digite algo...',
+                            hintStyle: context.textStyle.textRegular
+                                .copyWith(color: const Color(0XFF5F5E6D)),
+                            filled: true,
+                            fillColor: const Color(0XFF1C1C24)),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          color: Color(0XFF2F2E3D)),
+                      child: IconButton(
+                        onPressed: () {
+                          if (_sendMessageEC.text.isNotEmpty) {
+                            controller.sendMessage(
+                                widget.friendInformations.friendId,
+                                _sendMessageEC.text);
+                            _sendMessageEC.clear();
+                          }
+                        },
+                        icon: const Icon(Icons.send_rounded),
+                        color: const Color(0XFF5F5E6D),
+                        iconSize: 32,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )),
+          ],
+        ),
       ),
     );
   }

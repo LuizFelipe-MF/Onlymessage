@@ -22,58 +22,65 @@ class _AddFriendsPageState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Adicionar amigos',
-          style: context.textStyle.textMedium
-              .copyWith(color: const Color(0XFF5F5E6D)),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop(true);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Adicionar amigos',
+            style: context.textStyle.textMedium
+                .copyWith(color: const Color(0XFF5F5E6D)),
+          ),
         ),
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextFormField(
-                onChanged: (value) {
-                  controller.searchUsers(value);
-                },
-                controller: _searchEC,
-                style: context.textStyle.textRegular.copyWith(fontSize: 16),
-                decoration: InputDecoration(
-                  suffixIcon: const Icon(
-                    Icons.search,
-                    color: Color(
-                      0XFF5F5E6D,
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextFormField(
+                  onChanged: (value) {
+                    controller.searchUsers(value);
+                  },
+                  controller: _searchEC,
+                  style: context.textStyle.textRegular.copyWith(fontSize: 16),
+                  decoration: InputDecoration(
+                    suffixIcon: const Icon(
+                      Icons.search,
+                      color: Color(
+                        0XFF5F5E6D,
+                      ),
+                      size: 22,
                     ),
-                    size: 22,
-                  ),
-                  hintText: 'Buscar...',
-                  hintStyle: context.textStyle.textRegular.copyWith(
-                    fontSize: 16,
-                    color: const Color(0XFF5F5E6D),
+                    hintText: 'Buscar...',
+                    hintStyle: context.textStyle.textRegular.copyWith(
+                      fontSize: 16,
+                      color: const Color(0XFF5F5E6D),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          BlocSelector<AddFriendsController, AddFriendsState, List<UsersToAdd>>(
-            selector: (state) => state.users,
-            builder: (context, users) {
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: users.length,
-                  (context, index) {
-                    final UsersToAdd user = users[index];
+            BlocSelector<AddFriendsController, AddFriendsState,
+                List<UsersToAdd>>(
+              selector: (state) => state.users,
+              builder: (context, users) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: users.length,
+                    (context, index) {
+                      final UsersToAdd user = users[index];
 
-                    return userCard(user);
-                  },
-                ),
-              );
-            },
-          )
-        ],
+                      return userCard(user);
+                    },
+                  ),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }

@@ -26,13 +26,14 @@ class ChatController extends Cubit<ChatState> {
       emit(state.copyWith(
         status: ChatStatus.error,
         messages: [],
+        errorMessage: null,
       ));
     }
   }
 
   Future<void> sendMessage(String receiverId, String textMessage) async {
     try {
-      emit(state.copyWith(status: ChatStatus.loading));
+      
       final res = await _chatRepository.sendMessage(receiverId, textMessage);
 
       final newMessage = Message(
@@ -43,12 +44,12 @@ class ChatController extends Cubit<ChatState> {
 
       addNewMessages(newMessage);
     } on DioError catch (e) {
-      emit(state.copyWith(status: ChatStatus.error));
+      emit(state.copyWith(
+          status: ChatStatus.error, errorMessage: 'Erro ao enviar mensagem'));
     }
   }
 
   Future<void> getLocalUserId() async {
-    emit(state.copyWith(status: ChatStatus.loading));
     final sp = await SharedPreferences.getInstance();
     final jwt = sp.getString('token') ?? '';
 

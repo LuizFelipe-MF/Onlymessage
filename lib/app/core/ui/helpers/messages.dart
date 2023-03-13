@@ -10,16 +10,17 @@ mixin Messages<T extends StatefulWidget> on State<T> {
       CustomSnackBar.error(
         message: message,
       ),
+      displayDuration: const Duration(milliseconds: 100),
     );
   }
 
   void showInfo(String message) {
     showTopSnackBar(
-      Overlay.of(context),
-      CustomSnackBar.info(
-        message: message,
-      ),
-    );
+        Overlay.of(context),
+        CustomSnackBar.info(
+          message: message,
+        ),
+        displayDuration: const Duration(milliseconds: 100));
   }
 
   void showSuccess(String message) {
@@ -28,6 +29,7 @@ mixin Messages<T extends StatefulWidget> on State<T> {
       CustomSnackBar.success(
         message: message,
       ),
+      displayDuration: const Duration(milliseconds: 100),
     );
   }
 }
