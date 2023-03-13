@@ -1,4 +1,4 @@
-<img src="https://github.com/LuizFelipe-MF/Onlymessage/blob/develop/1.0.0/github_assets/onlymessage_banner.svg" width="100%" height="200">
+<img src="https://github.com/LuizFelipe-MF/Onlymessage/blob/main/github_assets/onlymessage_banner.svg" width="100%" height="200">
 
 ## OnlyMessage
 
